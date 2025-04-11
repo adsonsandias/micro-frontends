@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "buildCommand": "cd ../.. && npm install && npm run build",
+  "buildCommand": "cd ../.. && npm ci && npm run build",
   "outputDirectory": "dist",
-  "installCommand": "cd ../.. && npm install",
+  "installCommand": "cd ../.. && npm ci",
   "framework": "vite",
   "builds": [
     {
