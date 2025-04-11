@@ -1,0 +1,12 @@
+{
+  "name": "@repo/tsconfig",
+  "version": "1.0.0",
+  "private": true,
+  "files": [
+    "base.json",
+    "react-library.json"
+  ],
+  "devDependencies": {
+    "typescript": "5.8.2"
+  }
+}

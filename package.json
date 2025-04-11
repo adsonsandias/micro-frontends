@@ -1,10 +1,6 @@
 {
   "name": "microfrontends",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
@@ -16,8 +12,11 @@
   "devDependencies": {
     "prettier": "^3.5.3",
     "turbo": "latest",
-    "typescript": "5.8.2",
-    "@repo/eslint-config": "workspace:*"
+    "typescript": "5.8.2"
   },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "packageManager": "npm@10.9.0"
 }

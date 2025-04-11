@@ -28,3 +28,4 @@ next-env.d.ts
 
 # turborepo
 .turbo
+packages/ui/node_modules/
