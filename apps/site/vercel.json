@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "buildCommand": "cd ../.. && npm ci && npm run build",
+  "buildCommand": "cd ../.. && npm ci --workspace=@repo/site && npm run build --workspace=@repo/site",
   "outputDirectory": ".next",
-  "installCommand": "cd ../.. && npm ci",
+  "installCommand": "cd ../.. && npm ci --workspace=@repo/site",
   "framework": "nextjs"
 }
