@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "cd ../.. && npm run install:clean && npm run build --workspace=@repo/site",
+  "buildCommand": "cd ../.. && npm install --include-workspace-root && npm run build --workspace=site",
   "outputDirectory": ".next",
   "framework": "nextjs"
 }

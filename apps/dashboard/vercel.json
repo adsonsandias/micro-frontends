@@ -1,19 +1,8 @@
 {
   "version": 2,
-  "buildCommand": "cd ../.. && npm install && npm run build --filter=@repo/dashboard...",
+  "buildCommand": "cd ../.. && npm install --include-workspace-root && npm run build --workspace=dashboard",
+  "name": "dashboard",
+  "private": true,
   "outputDirectory": "dist",
-  "installCommand": "cd ../.. && npm install",
-  "framework": "vite",
-  "builds": [
-    {
-      "src": "dist/**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/dist/$1"
-    }
-  ]
+  "framework": "vite"
 }
