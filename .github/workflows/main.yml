@@ -18,18 +18,16 @@ jobs:
       with:
         node-version: '18'
 
+    - name: Install Turbo
+      run: npm install -g turbo
+
     - name: Install Dependencies
       run: npm install
 
-    - name: Build Next.js App
-      working-directory: ./apps/site
+    - name: Build
       run: npm run build
 
-    - name: Build Vite App
-      working-directory: ./apps/dashboard
-      run: npm run build
-
-    - name: Deploy Next.js to Vercel
+    - name: Deploy Site to Vercel
       uses: amondnet/vercel-action@v20
       with:
         vercel-token: ${{ secrets.VERCEL_TOKEN }}
@@ -37,10 +35,8 @@ jobs:
         vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_NEXTJS }}
         working-directory: ./apps/site
         vercel-args: '--prod'
-        github-comment: true
-        github-deployment: false
 
-    - name: Deploy Vite App to Vercel
+    - name: Deploy Dashboard to Vercel
       uses: amondnet/vercel-action@v20
       with:
         vercel-token: ${{ secrets.VERCEL_TOKEN }}
@@ -48,5 +44,3 @@ jobs:
         vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_VITE }}
         working-directory: ./apps/dashboard
         vercel-args: '--prod'
-        github-comment: true
-        github-deployment: false
