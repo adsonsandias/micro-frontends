@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "buildCommand": "cd ../.. && npm ci --workspace=@repo/dashboard && npm run build --workspace=@repo/dashboard",
+  "buildCommand": "npm install && npm run build",
   "outputDirectory": "dist",
-  "installCommand": "cd ../.. && npm ci --workspace=@repo/dashboard",
+  "installCommand": "npm install",
   "framework": "vite",
   "builds": [
     {
