@@ -1,0 +1,86 @@
+stages:
+  - install
+  - build
+  - dockerize
+  - deploy
+
+variables:
+  APP_IMAGE: $CI_REGISTRY_IMAGE
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_TLS_CERTDIR: ""
+
+install_dependencies:
+  stage: install
+  tags:
+  - docker
+  image: node:18-alpine
+  script:
+    - apk add --no-cache git
+    - npm install
+  cache:
+    key: dependencies
+    paths:
+      - node_modules
+      - apps/site/node_modules
+      - apps/dashboard/node_modules
+
+build_nextjs:
+  stage: build
+  tags:
+  - docker
+  image: node:18-alpine
+  script:
+    - cd apps/site
+    - npm run build
+    - ls -la .next
+  needs: ["install_dependencies"]
+  artifacts:
+    paths:
+      - apps/site/.next
+    expire_in: 1 week
+
+build_vite:
+  stage: build
+  tags:
+  - docker
+  image: node:18-alpine
+  script:
+    - cd apps/dashboard
+    - npm run build
+    - ls -la dist
+  needs: ["install_dependencies"]
+  artifacts:
+    paths:
+      - apps/dashboard/dist
+    expire_in: 1 week
+
+build_docker_images:
+  stage: dockerize
+  tags:
+  - docker
+  image: docker:24
+  services:
+    - docker:24-dind
+  variables:
+    DOCKER_BUILDKIT: 1
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+    - docker build -f apps/site/Dockerfile -t $APP_IMAGE/site:$CI_COMMIT_SHORT_SHA .
+    - docker build -f apps/dashboard/Dockerfile -t $APP_IMAGE/dashboard:$CI_COMMIT_SHORT_SHA .
+    - docker push $APP_IMAGE/site:$CI_COMMIT_SHORT_SHA
+    - docker push $APP_IMAGE/dashboard:$CI_COMMIT_SHORT_SHA
+  needs: ["build_nextjs", "build_vite"]
+
+deploy_production:
+  stage: deploy
+  tags:
+  - docker
+  image: node:18-alpine
+  script:
+    - npm install -g vercel
+    - cd apps/site && vercel --prod --token=$VERCEL_TOKEN
+    - cd ../dashboard && vercel --prod --token=$VERCEL_TOKEN
+  only:
+    - main
+  needs: ["build_docker_images"]
+
