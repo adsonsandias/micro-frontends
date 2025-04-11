@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "cd ../.. && npm install --include-workspace-root && npm run build --workspace=site",
+  "buildCommand": "cd ../.. && npm install --workspaces --if-present && turbo run build --filter=site...",
   "outputDirectory": ".next",
   "framework": "nextjs"
 }

@@ -1,8 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "cd ../.. && npm install --include-workspace-root && npm run build --workspace=dashboard",
-  "name": "dashboard",
-  "private": true,
+  "buildCommand": "cd ../.. && npm install --workspaces --if-present && turbo run build --filter=dashboard...",
   "outputDirectory": "dist",
   "framework": "vite"
 }
